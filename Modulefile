@@ -20,10 +20,11 @@ Examples:
 
 Changes from dhogland/splunk
 -------
-1) Made splunk class paramaritized so it can work with out the entriprise console
-2) Added support for amd64 systems
-3) Fixed variable name "installer" in windows set ups to reference: ${splunk::params::installer} (untested by probably fixed issues with windows installs)
-4) Add the installerfilespath option. This allows you to store your installer files in a seperate module or else where on the disk.
+
+- Made splunk class paramaritized so it can work with out the entriprise console
+- Added support for amd64 systems
+- Fixed variable name "installer" in windows set ups to reference: ${splunk::params::installer} (untested by probably fixed issues with windows installs)
+- Add the installerfilespath option. This allows you to store your installer files in a seperate module or else where on the disk.
 
 Author
 -------
