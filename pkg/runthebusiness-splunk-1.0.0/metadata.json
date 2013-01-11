@@ -12,14 +12,12 @@
     "manifests/linux_forwarder.pp": "fabf057f02114606c6a54f9f1fc5ab9b",
     "manifests/params.pp": "6a2f5d70e2c6c22b9778f0031e5452ce",
     "manifests/linux_syslog.pp": "b0731349519c59cdb8e1c3466ac4eec2",
-    "files/splunk-5.0.1-143156-linux-2.6-amd64.deb": "e1a555283f6dbc5578ef740584f16c3d",
     "manifests/linux_server.pp": "f39cef3674a4ad94d93d1972b6ddef5a",
     "manifests/windows_forwarder.pp": "cfc8045730ff04ca432c5980cfd9a061",
     "manifests/windows_server.pp": "8e277d518ab8d11eaebe5094e24d91b6",
-    "files/splunk-4.3.1-119532-linux-2.6-amd64.deb": "26ca3212ba24b4069ee5c2a3499901f1",
     "README.markdown": "4a1405afd452aac511bc424fd122973f",
     "Modulefile": "0dc768542a9fdc97a06eb3bf99e24eac",
-    "manifests/init.pp": "8fb7aaca40e5601570f877f8776a4720"
+    "manifests/init.pp": "8309125ba18be1710e9613f72e5b1201"
   },
   "types": [
 

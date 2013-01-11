@@ -6,7 +6,7 @@
 #  - $deploy: valid values are server, syslog, (Default: 'server')
 #  - $splunk_ver: the username to run the command with (Default: '4.3.1-119532')
 #  - $logging_server: not validated, but should be hostname or IP (Default: undef)
-#  - $syslogging_port: syslog port (Default: '8001')
+#  - $syslogging_port: syslog port (Default: '514')
 #  - $logging_port: forwarder port (Default: '8002')
 #  - $splunkd_port: splunk d port (Default: '8089')
 #  - $admin_port: admin port (Default: '8000')
@@ -18,7 +18,7 @@ class splunk (
   $deploy              = 'server', #valid values are server, syslog, forwarder,
   $splunk_ver          = '4.3.1-119532', #TODO: Get newest version to work: '5.0.1-143156'
   $logging_server      = undef, #not validated, but should be hostname or IP
-  $syslogging_port     = '8001',
+  $syslogging_port     = '514',
   $logging_port        = '8002',
   $splunkd_port        = '8089',
   $admin_port          = '8000',
