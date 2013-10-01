@@ -4,24 +4,41 @@
 #
 
 class splunk::linux_forwarder {
-  file {"${splunk::params::linux_stage_dir}":
-    ensure => directory,
-    owner  => "root",
-    group  => "root",
+  File {
+      owner => "${splunk::user}",
+      group => "${splunk::group}",
   }
-  file {"splunk_installer":
-    path    => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",
-    source  => "${splunk::params::installerfilespath}${splunk::params::installer}",
-    require => File["${splunk::params::linux_stage_dir}"],
+
+  file { [ '/opt/splunkforwarder/etc/system/local/inputs.conf',
+           '/opt/splunkforwarder/etc/system/local/outputs.conf',
+           '/opt/splunkforwarder/etc/system/local/server.conf', ] :
+    mode => '0600',
   }
-  package {"splunkforwarder":
-    ensure   => installed,
-    source   => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",
-    provider => $::operatingsystem ? {
-      /(?i)(centos|redhat)/   => 'rpm',
-      /(?i)(debian|ubuntu)/ => 'dpkg',
-    },
-    notify   => Exec['start_splunk'],
+
+  if "${splunk::provider}" == 'yum' {
+    package {"splunkforwarder":
+      ensure   => "${splunk::splunk_ver}",
+      provider => 'yum',
+      notify   => Exec['start_splunk'],
+    }
+  } else {
+    file {"${splunk::params::linux_stage_dir}":
+      ensure => directory,
+    }
+    file {"splunk_installer":
+      path    => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",
+      source  => "${splunk::params::installerfilespath}${splunk::params::installer}",
+      require => File["${splunk::params::linux_stage_dir}"],
+    }
+    package {"splunkforwarder":
+      ensure   => installed,
+      source   => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",
+      provider => $::operatingsystem ? {
+        /(?i)(centos|redhat)/   => 'rpm',
+        /(?i)(debian|ubuntu)/ => 'dpkg',
+      },
+      notify   => Exec['start_splunk'],
+    }
   }
 #  firewall { "100 allow Splunkd":
 #    action => "accept",
@@ -51,6 +68,8 @@ class splunk::linux_forwarder {
   }
   file {'/etc/init.d/splunk':
     ensure  => file,
+    owner   => 'root',
+    group   => 'root',
     require => Exec['set_boot']
   }
   service {"splunk":

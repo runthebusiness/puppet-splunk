@@ -4,10 +4,13 @@
 #
 
 class splunk::linux_server {
+  File {
+      owner => "${splunk::user}",
+      group => "${splunk::group}",
+  }
+
   file {"${splunk::params::linux_stage_dir}":
     ensure => directory,
-    owner  => "root",
-    group  => "root",
   }
   file {"splunk_installer":
     path    => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",
@@ -34,14 +37,22 @@ class splunk::linux_server {
     proto  => "tcp",
     dport  => "${splunk::params::syslogging_port}",
   }
-  package {"splunk":
-    ensure   => installed,
-    source   => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",
-    provider => $::operatingsystem ? {
-      /(?i)(centos|redhat)/ => 'rpm',
-      /(?i)(debian)/        => 'dpkg',
-    },
-    notify   => Exec['start_splunk'],
+  if "${splunk::provider}" == 'yum' {
+    package {"splunk":
+      ensure   => "${splunk::splunk_ver}",
+      provider => 'yum',
+      notify   => Exec['start_splunk'],
+    }
+  } else {
+    package {"splunk":
+      ensure   => installed,
+      source   => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",
+      provider => $::operatingsystem ? {
+        /(?i)(centos|redhat)/ => 'rpm',
+        /(?i)(debian)/        => 'dpkg',
+      },
+      notify   => Exec['start_splunk'],
+    }
   }
   exec {"start_splunk":
     creates => "/opt/splunk/etc/auth/splunkweb",
