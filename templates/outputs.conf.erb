@@ -1,0 +1,14 @@
+# This file is managed by Puppet - DO NOT MODIFY
+
+[tcpout]
+defaultGroup = <%= @defaultGroup %>
+
+[tcpout:<%= @defaultGroup %>]
+autoLB = true
+compressed = false
+disabled = false
+indexAndForward = false
+sendCookedData = false
+useACK = true
+server = <%= @logging_server %>:<%= @logging_port %>
+

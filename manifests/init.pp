@@ -16,10 +16,12 @@
 #  - $splunk_admin_pass: splunk admin password  (Default: 'changeme')
 #  - $installerfilespath: path to the installers downloaded for splunk (Default: 'puppet:///modules/${module_name}/')
 #  - $provider: package provider to permit yum override (Default: is OS specific)
+#  - $host: host value for inputs.conf (Default: $decideOnStartup)
+#  - $defaultGroup: defaultGroup value for outputs.conf (Default: default-autolb-group)
 
 class splunk (
   $deploy              = 'server', #valid values are server, syslog, forwarder,
-  $splunk_ver          = '4.3.1-119532', #TODO: Get newest version to work: '5.0.1-143156'
+  $splunk_ver          = '5.0.3-163460',
   $user                = 'splunk',
   $group               = 'splunk',
   $logging_server      = undef, #not validated, but should be hostname or IP
@@ -30,7 +32,9 @@ class splunk (
   $splunk_admin        = "admin",
   $splunk_admin_pass   = "changeme",
   $installerfilespath  = "puppet:///modules/${module_name}/",
-  $provider            = nil
+  $provider            = nil,
+  $host                = '$decideOnStartup',
+  $defaultGroup        = 'default-autolb-group',
 ) {
   if $logging_server == undef {
     fail('Error: no splunk logging server specified')

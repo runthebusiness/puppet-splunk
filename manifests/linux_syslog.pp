@@ -3,6 +3,11 @@
 # Modified version of dhogland/splunk (https://github.com/dhogland/splunk). Modified by Will Ferrer and Ethan Brooks of Run the Business LLC
 #
 class splunk::linux_syslog {
+  File {
+      owner => "${splunk::user}",
+      group => "${splunk::group}",
+  }
+
   package {"rsyslog":
     ensure => installed,
   }
@@ -16,8 +21,6 @@ class splunk::linux_syslog {
   file {"/etc/rsyslog.conf":
     ensure  => file,
     mode    => '0644',
-    owner   => "root",
-    group   => "root",
     require => Package['rsyslog'],
   }
   file_line {"log_all":

@@ -9,10 +9,28 @@ class splunk::linux_forwarder {
       group => "${splunk::group}",
   }
 
-  file { [ '/opt/splunkforwarder/etc/system/local/inputs.conf',
-           '/opt/splunkforwarder/etc/system/local/outputs.conf',
-           '/opt/splunkforwarder/etc/system/local/server.conf', ] :
-    mode => '0600',
+  concat { '/opt/splunkforwarder/etc/system/local/inputs.conf':
+    mode   => '0600',
+    owner  => "${splunk::user}",
+    group  => "${splunk::group}",
+    notify => Service['splunk'],
+  }
+  concat::fragment { 'inputs.conf.header':
+    target  => '/opt/splunkforwarder/etc/system/local/inputs.conf',
+    content => "# This file is managed by Puppet - DO NOT MODIFY\nhost = ${splunk::host}\n",
+    order   => 01,
+  }
+  file { '/opt/splunkforwarder/etc/system/local/outputs.conf':
+    content => template('splunk/outputs.conf.erb'),
+    mode   => '0600',
+    notify => Service['splunk'],
+  }
+  file { '/opt/splunkforwarder/etc/system/local/server.conf':
+    content => template('splunk/server.conf.erb'),
+    mode   => '0600',
+    owner  => 'root', # restarting splunk sets owner to root
+    group  => 'root', # restarting splunk sets group to root
+    notify => Service['splunk'],
   }
 
   if "${splunk::provider}" == 'yum' {
@@ -50,17 +68,17 @@ class splunk::linux_forwarder {
     command => "/opt/splunkforwarder/bin/splunk start --accept-license",
     timeout => 0,
   }
-  exec {"set_forwarder_port":
-    unless  => "/bin/grep \"server \= ${splunk::params::logging_server}:${splunk::params::logging_port}\" /opt/splunkforwarder/etc/system/local/outputs.conf",
-    command => "/opt/splunkforwarder/bin/splunk add forward-server ${splunk::params::logging_server}:${splunk::params::logging_port} -auth ${splunk::params::splunk_admin}:${splunk::params::splunk_admin_pass}",
-    require => Exec['set_monitor_default'],
-    notify  => Service['splunk'],
-  }
-  exec {"set_monitor_default":
-    unless  => "/bin/grep \"\/var\/log\" /opt/splunkforwarder/etc/apps/search/local/inputs.conf",
-    command => "/opt/splunkforwarder/bin/splunk add monitor \"/var/log/\" -auth ${splunk::params::splunk_admin}:${splunk::params::splunk_admin_pass}",
-    require => Exec['start_splunk','set_boot'],
-  }
+  #exec {"set_forwarder_port":
+    #unless  => "/bin/grep \"server \= ${splunk::params::logging_server}:${splunk::params::logging_port}\" /opt/splunkforwarder/etc/system/local/outputs.conf",
+    #command => "/opt/splunkforwarder/bin/splunk add forward-server ${splunk::params::logging_server}:${splunk::params::logging_port} -auth ${splunk::params::splunk_admin}:${splunk::params::splunk_admin_pass}",
+    ##require => Exec['set_monitor_default'],
+    #notify  => Service['splunk'],
+  #}
+  #exec {"set_monitor_default":
+    #unless  => "/bin/grep \"\/var\/log\" /opt/splunkforwarder/etc/apps/search/local/inputs.conf",
+    #command => "/opt/splunkforwarder/bin/splunk add monitor \"/var/log/\" -auth ${splunk::params::splunk_admin}:${splunk::params::splunk_admin_pass}",
+    #require => Exec['start_splunk','set_boot'],
+  #}
   exec {"set_boot":
     creates => "/etc/init.d/splunk",
     command => "/opt/splunkforwarder/bin/splunk enable boot-start",

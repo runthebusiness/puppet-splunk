@@ -3,8 +3,8 @@
 # Modified version of dhogland/splunk (https://github.com/dhogland/splunk). Modified by Will Ferrer and Ethan Brooks of Run the Business LLC
 #
 class splunk::params (
-	$deploy              = undef, #valid values are server, syslog, forwarder,
-	$splunk_ver          = undef,
+	$deploy=undef, #valid values are server, syslog, forwarder,
+	$splunk_ver=undef,
 	$logging_server      = undef, #not validated, but should be hostname or IP
 	$syslogging_port     = undef,
 	$logging_port        = undef,
