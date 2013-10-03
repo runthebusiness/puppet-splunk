@@ -20,6 +20,11 @@ class splunk::linux_forwarder {
     content => "# This file is managed by Puppet - DO NOT MODIFY\nhost = ${splunk::host}\n",
     order   => 01,
   }
+  file { '/opt/splunkforwarder/etc/system/local/limits.conf':
+    content => template('splunk/limits.conf.erb'),
+    mode   => '0600',
+    notify => Service['splunk'],
+  }
   file { '/opt/splunkforwarder/etc/system/local/outputs.conf':
     content => template('splunk/outputs.conf.erb'),
     mode   => '0600',

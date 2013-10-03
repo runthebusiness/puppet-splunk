@@ -18,6 +18,7 @@
 #  - $provider: package provider to permit yum override (Default: is OS specific)
 #  - $host: host value for inputs.conf (Default: $decideOnStartup)
 #  - $defaultGroup: defaultGroup value for outputs.conf (Default: default-autolb-group)
+#  - $maxKBps: maxKBps value for limits.conf (Default: 0 which is for unthrottled throughput)
 
 class splunk (
   $deploy              = 'server', #valid values are server, syslog, forwarder,
@@ -35,6 +36,7 @@ class splunk (
   $provider            = nil,
   $host                = '$decideOnStartup',
   $defaultGroup        = 'default-autolb-group',
+  $maxKBps             = 0,
 ) {
   if $logging_server == undef {
     fail('Error: no splunk logging server specified')
