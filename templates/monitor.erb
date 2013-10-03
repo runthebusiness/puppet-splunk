@@ -1,0 +1,16 @@
+
+[monitor://<%= @log %>]
+<%=
+out = ""
+if @blacklist then
+	out += "blacklist = " + @blacklist
+end
+if @whitelist then
+	if out != "" then
+		out += "\n"
+	end
+	out += "whitelist = " + @whitelist
+end
+out
+-%>
+

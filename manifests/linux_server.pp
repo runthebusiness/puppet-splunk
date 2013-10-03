@@ -4,10 +4,13 @@
 #
 
 class splunk::linux_server {
+  File {
+      owner => "${splunk::user}",
+      group => "${splunk::group}",
+  }
+
   file {"${splunk::params::linux_stage_dir}":
     ensure => directory,
-    owner  => "root",
-    group  => "root",
   }
   file {"splunk_installer":
     path    => "${splunk::params::linux_stage_dir}/${splunk::params::installer}",

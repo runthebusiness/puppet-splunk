@@ -1,0 +1,25 @@
+# This file is managed by Puppet - DO NOT MODIFY
+
+[general]
+serverName = <%= @fqdn %>
+
+[lmpool:auto_generated_pool_forwarder]
+description = auto_generated_pool_forwarder
+quota = MAX
+slaves = *
+stack_id = forwarder
+
+[lmpool:auto_generated_pool_free]
+description = auto_generated_pool_free
+quota = MAX
+slaves = *
+stack_id = free
+
+[applicationsManagement]
+allowInternetAccess = false
+
+<% if @splunksslkeysfilepassword -%>
+[sslConfig]
+sslKeysfilePassword = <%= @splunksslkeysfilepassword %>
+<% end -%>
+

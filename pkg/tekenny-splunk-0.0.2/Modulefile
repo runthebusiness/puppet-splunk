@@ -1,5 +1,5 @@
 name 'tekenny-splunk'
-version '0.1.0'
+version '0.0.2'
 
 author 'dhogland, modifieing authors: Will Ferrer and Ethan Brooks (Run the Business): Thomas Kenny (tekenny)'
 license 'Apache License, Version 2.0'
@@ -37,7 +37,6 @@ Changes from runthebusiness/splunk
 - Changed default for splunk_ver to 5.0.3-163460
 - Added custom fact splunksslkeysfilepassword this is obtained and used in the template for server.conf and is generated when splunk is started if it doesn\'t already exist.
 - Added management of server.conf
-- Added management of limits.conf and added parameter splunk::maxKBps
 
 Author
 -------

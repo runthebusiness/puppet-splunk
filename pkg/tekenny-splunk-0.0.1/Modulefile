@@ -1,5 +1,5 @@
 name 'tekenny-splunk'
-version '0.1.0'
+version '0.0.1'
 
 author 'dhogland, modifieing authors: Will Ferrer and Ethan Brooks (Run the Business): Thomas Kenny (tekenny)'
 license 'Apache License, Version 2.0'
@@ -29,15 +29,8 @@ Changes from dhogland/splunk
 Changes from runthebusiness/splunk
 -------
 - Added parameter ${splunk::user} to set user and ${splunk::group} to set group on managed files (Linux only). Default is splunk
-- Added parameter ${splunk::provider} to set be able to set provider as yum so package can be installed via YUM rather than placing package in module\'s files directory (Linux only). Default is to install from the module\'s files directory.
-- Added parameter ${splunk::host} which is the host setting for inputs.conf (Linux only). Default is $decideOnStartup
+- Added parameter ${splunk::provider} to set be able to set provider as yum so package can be installed via YUM rather than placing package in module\'s files directory (Linux only).
 - Added a dependency on the puppetlabs/concat forge module.
-- Refactored splunk::monitor and how inputs.conf is managed to support defining a blacklist and/or whitelist
-- Added parameter ${splunk::defaultGroup} which is the defaultGroup setting for outputs.conf (Linux only). Default is default-autolb-group
-- Changed default for splunk_ver to 5.0.3-163460
-- Added custom fact splunksslkeysfilepassword this is obtained and used in the template for server.conf and is generated when splunk is started if it doesn\'t already exist.
-- Added management of server.conf
-- Added management of limits.conf and added parameter splunk::maxKBps
 
 Author
 -------

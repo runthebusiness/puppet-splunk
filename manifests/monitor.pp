@@ -17,17 +17,22 @@
 #     log    => '/var/log/production.log',
 #     action => 'add',
 # }
-define splunk::monitor($log, $action) {
+define splunk::monitor($log, $action, $order, $whitelist = undef, $blacklist = undef) {
 
   include splunk
 
   case $action {
     'add': {
-      exec { "add_${name}":
-        onlyif  => "/usr/bin/test -f ${log}",
-        unless  => "/bin/grep \"${log}\" /opt/splunkforwarder/etc/apps/search/local/inputs.conf",
-        command => "/opt/splunkforwarder/bin/splunk add monitor \"${log}\" -auth ${splunk::params::splunk_admin}:${splunk::params::splunk_admin_pass}",
-        notify  => Service['splunk'],
+      #exec { "add_${name}":
+        #onlyif  => "/usr/bin/test -f ${log}",
+        #unless  => "/bin/grep \"${log}\" /opt/splunkforwarder/etc/apps/search/local/inputs.conf",
+        #command => "/opt/splunkforwarder/bin/splunk add monitor \"${log}\" -auth ${splunk::params::splunk_admin}:${splunk::params::splunk_admin_pass}",
+        #notify  => Service['splunk'],
+      #}
+      concat::fragment { "inputs.conf.${order}":
+        target  => '/opt/splunkforwarder/etc/system/local/inputs.conf',
+        content => template('splunk/monitor.erb'),
+        order   => "${order}",
       }
     }
     'remove': {
