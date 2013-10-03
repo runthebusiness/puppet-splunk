@@ -1,0 +1,40 @@
+{
+  "project_page": "https://github.com/tekenny/puppet-splunk",
+  "checksums": {
+    "templates/server.conf.erb": "3086a04ba9c14b10d3ade77adf9e2cd8",
+    "templates/outputs.conf.erb": "d335bde297fc9be7eb48ecd07ec7acd2",
+    "manifests/init.pp": "507b46a4cc24038edf75981fa7d6dc60",
+    "Modulefile": "1948c97defbc5dbdf28816a1cb3f2e85",
+    "manifests/linux_syslog.pp": "19a27cac41a808dac434c56a94bf28b0",
+    "manifests/linux_server.pp": "2309beba987b28bcc18f2b19d09a7331",
+    "README.markdown": "c349cdcd5e587c4d4148cdab1a426db1",
+    "manifests/monitor.pp": "7662d6c657ea5b7ad7c93ac3fd73c4cf",
+    "manifests/windows_server.pp": "8e277d518ab8d11eaebe5094e24d91b6",
+    "templates/limits.conf.erb": "e876444b21072dc283ac7921b882e1cf",
+    "manifests/windows_forwarder.pp": "cfc8045730ff04ca432c5980cfd9a061",
+    "templates/monitor.erb": "ce5817d7174e6705fbdd1ce0f2964c1d",
+    "manifests/linux_forwarder.pp": "b4ac5cfb1fee939c483fe6077eb9f999",
+    "manifests/params.pp": "6a2f5d70e2c6c22b9778f0031e5452ce",
+    "lib/facter/splunkSSLkeysfilePassword.rb": "005e0276d388eb9c873ab432d87de13b"
+  },
+  "license": "Apache License, Version 2.0",
+  "source": "",
+  "description": "splunk\n\nThis class installs and configurs splunk. It is a paramaritized version of dhogland/splunk (https://github.com/dhogland/splunk) and includes some small bug fixes, default values added and other tweaks.\n\n\nExamples:\n\n\tclass{\"splunk\":\n\t  logging_server      => '<logging server>',\n\t}\n\nChanges from dhogland/splunk\n-------\n\n- Made splunk class paramaritized so it can work with out the entriprise console\n- Added support for amd64 systems\n- Fixed variable name \"installer\" in windows set ups to reference: ${splunk::params::installer} (untested by probably fixed issues with windows installs)\n- Add the installerfilespath option. This allows you to store your installer files in a seperate module or else where on the disk.\n\nChanges from runthebusiness/splunk\n-------\n- Added parameter ${splunk::user} to set user and ${splunk::group} to set group on managed files (Linux only). Default is splunk\n- Added parameter ${splunk::provider} to set be able to set provider as yum so package can be installed via YUM rather than placing package in module's files directory (Linux only). Default is to install from the module's files directory.\n- Added parameter ${splunk::host} which is the host setting for inputs.conf (Linux only). Default is $decideOnStartup\n- Added a dependency on the puppetlabs/concat forge module.\n- Refactored splunk::monitor and how inputs.conf is managed to support defining a blacklist and/or whitelist\n- Added parameter ${splunk::defaultGroup} which is the defaultGroup setting for outputs.conf (Linux only). Default is default-autolb-group\n- Changed default for splunk_ver to 5.0.3-163460\n- Added custom fact splunksslkeysfilepassword this is obtained and used in the template for server.conf and is generated when splunk is started if it doesn't already exist.\n- Added management of server.conf\n- Added management of limits.conf and added parameter splunk::maxKBps\n\nAuthor\n-------\ndhogland\n\nModifieing Authors\n-------\nWill Ferrer, Ethan Brooks\n\nContributing Authors  \n-------\nBrendan Murtagh\n\nLicensees\n-------\n2012 developed under license for Switchsoft LLC http://www.switchsoft.com a \"Direct response telephony company\" as part of it's \"VOIP Call distribution, ROI analysis platform, call recording, and IVR for inbound and outbound sales\" and Run the Business Systems LLC a \"Technology development investment group\" as part of it's \"PHP, Javascript rapid application development framework and MySQL analysis tools\"\n\nLicense\n-------\nLicensed under the terms of the Apache License, Version 2.0\n\n\nContact\n-------\nthomas.e.kenny@gmail.com\n\nSupport\n-------\n\nPlease send tickets and issues to our contact email address or at: https://github.com/tekenny/puppet-splunk/issues\n\nProject Url\n-------\nhttps://github.com/tekenny/puppet-splunk\n\n",
+  "dependencies": [
+    {
+      "version_requirement": ">=1.0.0",
+      "name": "puppetlabs/concat"
+    },
+    {
+      "version_requirement": ">=0.0.4",
+      "name": "puppetlabs/firewall"
+    }
+  ],
+  "summary": "This class installs and configurs splunk. It is a paramaritized version of dhogland/splunk (https://github.com/dhogland/splunk) and includes some small bug fixes, default values added and other tweaks.\n",
+  "author": "dhogland, modifieing authors: Will Ferrer and Ethan Brooks (Run the Business): Thomas Kenny (tekenny)",
+  "name": "tekenny-splunk",
+  "types": [
+
+  ],
+  "version": "0.1.0"
+}
